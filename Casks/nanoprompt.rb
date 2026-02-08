@@ -1,5 +1,5 @@
 cask "nanoprompt" do
-  version "0.3.0"
+  version "0.4.0"
 
   on_arm do
     sha256 "a68658089649ccf3e6810466778f10645530c34bf2dad9117b6389b8ff4449df"
