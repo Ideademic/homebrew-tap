@@ -1,5 +1,5 @@
 cask "nanoprompt" do
-  version "0.4.0"
+  version "0.4.1"
 
   on_arm do
     url "https://github.com/Ideademic/nanoprompt/releases/download/#{version}/nanoprompt_#{version}_aarch64.dmg"
