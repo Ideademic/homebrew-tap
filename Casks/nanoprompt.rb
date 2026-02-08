@@ -2,12 +2,10 @@ cask "nanoprompt" do
   version "0.4.0"
 
   on_arm do
-    sha256 "a68658089649ccf3e6810466778f10645530c34bf2dad9117b6389b8ff4449df"
     url "https://github.com/Ideademic/nanoprompt/releases/download/#{version}/nanoprompt_#{version}_aarch64.dmg"
   end
 
   on_intel do
-    sha256 "b85ebbe37a450ace1fabe194bbec1d0f16d737c8e63c687534bc7693f21c1ceb"
     url "https://github.com/Ideademic/nanoprompt/releases/download/#{version}/nanoprompt_#{version}_x64.dmg"
   end
 
