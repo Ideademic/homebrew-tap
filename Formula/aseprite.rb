@@ -25,12 +25,13 @@ class Aseprite < Formula
     skia_root.mkpath
     resource("skia").stage skia_root
 
-    arch = Hardware::CPU.arm? ? "arm64" : "x64"
-    skia_lib_dir = skia_root/"out/Release-#{arch}"
+    skia_arch = Hardware::CPU.arm? ? "arm64" : "x64"
+    apple_arch = Hardware::CPU.arm? ? "arm64" : "x86_64"
+    skia_lib_dir = skia_root/"out/Release-#{skia_arch}"
 
     cmake_args = std_cmake_args + %W[
       -DCMAKE_BUILD_TYPE=RelWithDebInfo
-      -DCMAKE_OSX_ARCHITECTURES=#{arch}
+      -DCMAKE_OSX_ARCHITECTURES=#{apple_arch}
       -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
       -DLAF_BACKEND=skia
       -DSKIA_DIR=#{skia_root}
