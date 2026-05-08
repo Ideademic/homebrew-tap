@@ -65,15 +65,6 @@ class Aseprite < Formula
     bin.install_symlink macos_dir/"aseprite"
   end
 
-  def post_install
-    user_apps = Pathname.new(Dir.home)/"Applications"
-    user_apps.mkpath
-    target = user_apps/"Aseprite.app"
-    target.unlink if target.symlink?
-    rm_r(target) if target.exist? && !target.symlink?
-    target.make_symlink(prefix/"Aseprite.app")
-  end
-
   def info_plist
     <<~XML
       <?xml version="1.0" encoding="UTF-8"?>
@@ -100,13 +91,23 @@ class Aseprite < Formula
   def caveats
     <<~EOS
       Aseprite has been compiled from source.
-        - App bundle: ~/Applications/Aseprite.app  (symlinked into the Cellar)
-        - CLI:        #{HOMEBREW_PREFIX}/bin/aseprite
+        - CLI:        #{opt_bin}/aseprite
+
+      Homebrew's sandbox prevents formulae from writing to ~/Applications,
+      so link the bundle yourself with one of the commands below. The
+      symlink targets #{opt_prefix.basename}/Aseprite.app so it stays
+      valid across `brew upgrade`.
+
+        # User Applications:
+        mkdir -p ~/Applications && \\
+          ln -sfn "#{opt_prefix}/Aseprite.app" ~/Applications/Aseprite.app
+
+        # System Applications (requires admin):
+        sudo ln -sfn "#{opt_prefix}/Aseprite.app" /Applications/Aseprite.app
 
       Aseprite is paid software; only the source is freely redistributable,
       which is why this is a formula (self-compiled) rather than a cask.
-      You compiled it yourself for personal use; you must comply with the
-      Aseprite EULA: https://github.com/aseprite/aseprite/blob/main/EULA.txt
+      EULA: https://github.com/aseprite/aseprite/blob/main/EULA.txt
     EOS
   end
 
