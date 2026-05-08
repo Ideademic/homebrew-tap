@@ -62,6 +62,8 @@ class Aseprite < Formula
     (app/"Contents/Info.plist").write info_plist
     (app/"Contents/PkgInfo").write "APPLAseP"
 
+    system "/usr/bin/codesign", "--force", "--deep", "--sign", "-", app
+
     bin.install_symlink macos_dir/"aseprite"
   end
 
@@ -94,16 +96,18 @@ class Aseprite < Formula
         - CLI:        #{opt_bin}/aseprite
 
       Homebrew's sandbox prevents formulae from writing to ~/Applications,
-      so link the bundle yourself with one of the commands below. The
-      symlink targets #{opt_prefix.basename}/Aseprite.app so it stays
-      valid across `brew upgrade`.
+      so install the bundle yourself with one of the commands below.
 
-        # User Applications:
+        # Copy into ~/Applications (real .app, recommended):
+        mkdir -p ~/Applications && \\
+          rm -rf ~/Applications/Aseprite.app && \\
+          cp -R "#{opt_prefix}/Aseprite.app" ~/Applications/
+
+        # Or symlink (auto-tracks `brew upgrade`, but it's a symlink):
         mkdir -p ~/Applications && \\
           ln -sfn "#{opt_prefix}/Aseprite.app" ~/Applications/Aseprite.app
 
-        # System Applications (requires admin):
-        sudo ln -sfn "#{opt_prefix}/Aseprite.app" /Applications/Aseprite.app
+      If you used `cp`, re-run it after `brew upgrade aseprite`.
 
       Aseprite is paid software; only the source is freely redistributable,
       which is why this is a formula (self-compiled) rather than a cask.
